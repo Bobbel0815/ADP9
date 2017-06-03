@@ -1,29 +1,41 @@
 
 public class Kante {
 	
-private Knoten start;
-private Knoten ende;
+private Knoten ziel;
 private int gewicht;
 
-public Kante(Knoten start, Knoten ende,int gewicht){
-	this.start = start;
-    this.ende = ende;
+
+
+public Kante(Knoten ziel){
+
+    this(ziel, 0);
+}
+public Kante(Knoten ziel,int gewicht){
+	
+	
+	this.start = ziel;
+    
     this.gewicht = gewicht;
 }
-public Knoten getNachbar(Knoten knoten){
-	if(! knoten.equals(start)|| knoten.equals(ende)){
-		return null;
-		
-	}
-	 return knoten.equals(start) ? ende: start;
+
+
+
+
+public void setZiel(Knoten ziel) {
+	this.ziel = ziel;
 }
-public Knoten getStart(){
-	return start;
+
+public void setGewicht(int gewicht) {
+	this.gewicht = gewicht;
 }
-public Knoten getEnde(){
-	return ende;
+
+public Knoten getZiel(){
+	return ziel;
 }
+
 public int getGewicht(){
 	return gewicht;
 }
+
+
 }
