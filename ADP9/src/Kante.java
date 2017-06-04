@@ -4,17 +4,8 @@ public class Kante {
 private Knoten ziel;
 private int gewicht;
 
-
-
-public Kante(Knoten ziel){
-
-    this(ziel, 0);
-}
 public Kante(Knoten ziel,int gewicht){
-	
-	
-	this.start = ziel;
-    
+	this.ziel= ziel;
     this.gewicht = gewicht;
 }
 
@@ -32,6 +23,14 @@ public void setGewicht(int gewicht) {
 public Knoten getZiel(){
 	return ziel;
 }
+
+@Override
+public String toString(){
+    return "( "+ ziel.getName() + " , "+ gewicht + " )";
+}
+
+
+
 
 public int getGewicht(){
 	return gewicht;
