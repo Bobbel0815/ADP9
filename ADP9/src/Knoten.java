@@ -7,12 +7,12 @@ import java.util.Map;
 public class Knoten {
 
 	
-	public LinkedList<Kante> adjazenzListe;
+	public ArrayList<Kante> adjazenzListe;
 	private String name ="";
 	
 	public Knoten(String name) {
 		this.name = name;
-		this.adjazenzListe = new LinkedList<Kante>();
+		this.adjazenzListe = new ArrayList<Kante>();
 	}
 
 	public String getName() {

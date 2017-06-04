@@ -39,6 +39,12 @@ int anzahlKnoten();
 void graphLöschen();
 
 
+public ArrayList<Knoten> getAllKnoten();
+
+
+public  ArrayList<Kante> getNachbarn(Knoten knoten);
+	
+
 
 
 

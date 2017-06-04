@@ -1,3 +1,4 @@
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,44 +24,44 @@ public class Adjazenzliste implements Graph {
 
 	@Override
 	public void knotenEntfernen(Knoten knoten) {
-		Knoten EntfKnoten=null;
-		for(int i=0;i<graphList.size();i++){
-			if(knoten != graphList.get(i)){
+		Knoten EntfKnoten = null;
+		for (int i = 0; i < graphList.size(); i++) {
+			if (knoten != graphList.get(i)) {
 				kanteEntfernen(knoten, graphList.get(i));
 			}
-				graphList.remove(knoten);
-			
-			}
+			graphList.remove(knoten);
+
+		}
 	}
 
 	@Override
-    public String toString(){
-        String returnValue = "";
-        for(int i = 0;i<graphList.size();i++){
-            returnValue += graphList.get(i) + "\n";
-        }
-        return returnValue;
+	public String toString() {
+		String returnValue = "";
+		for (int i = 0; i < graphList.size(); i++) {
+			returnValue += graphList.get(i) + "\n";
+		}
+		return returnValue;
 	}
-	
+
 	@Override
 	public void kanteEntfernen(Knoten knoten1, Knoten knoten2) {
-		Knoten knotenKante=null;
-		for(int i=0;i<knoten1.adjazenzListe.size();i++){
+		Knoten knotenKante = null;
+		for (int i = 0; i < knoten1.adjazenzListe.size(); i++) {
 			knotenKante = knoten1.adjazenzListe.get(i).getZiel();
-			if(knotenKante == knoten2){
+			if (knotenKante == knoten2) {
 				knoten1.adjazenzListe.remove(i);
 				continue;
 			}
 		}
-			for(int j=0;j<knoten2.adjazenzListe.size();j++){
-				knotenKante = knoten2.adjazenzListe.get(j).getZiel();
-				if(knotenKante == knoten1){
-					knoten2.adjazenzListe.remove(j);
-					continue;
-		
+		for (int j = 0; j < knoten2.adjazenzListe.size(); j++) {
+			knotenKante = knoten2.adjazenzListe.get(j).getZiel();
+			if (knotenKante == knoten1) {
+				knoten2.adjazenzListe.remove(j);
+				continue;
+
+			}
 		}
 	}
-		}
 
 	@Override
 	public void traversieren() {
@@ -75,7 +76,7 @@ public class Adjazenzliste implements Graph {
 	}
 
 	@Override
-	public  void graphLöschen() {
+	public void graphLöschen() {
 		graphList.clear();
 
 	}
@@ -99,14 +100,12 @@ public class Adjazenzliste implements Graph {
 
 	@Override
 	public void kanteHinzufügen(Knoten knoten1, Knoten knoten2, int gewicht) {
-		if(graphList.contains(knoten1)){
+		if (graphList.contains(knoten1)) {
 			knoten1.adjazenzListe.add(0, new Kante(knoten2, gewicht));
-			knoten2.adjazenzListe.add(0,new Kante(knoten1,gewicht));
+			knoten2.adjazenzListe.add(0, new Kante(knoten1, gewicht));
 		}
-		
-	}
 
-	
+	}
 
 	public int anzahlKanten(Knoten knoten) {
 		return knoten.adjazenzListe.size();
@@ -120,20 +119,22 @@ public class Adjazenzliste implements Graph {
 
 	@Override
 	public int getGewicht(Knoten knoten1, Knoten knoten2) {
-		int gewicht=-1;
-		for(int i=0;i<knoten1.adjazenzListe.size();i++){
-		if (knoten1.adjazenzListe.get(i).getZiel()==knoten2) {
-			gewicht= knoten1.adjazenzListe.get(i).getGewicht();
-	
-		}
+		int gewicht = -1;
+	//	for (int i = 0; i < knoten1.adjazenzListe.size(); i++) {
+			//if (knoten1.adjazenzListe.get(i).getZiel() == knoten2) {
+		int index = getIndexInAdjListe(knoten1,knoten2);
+		if(index != -1){
+		gewicht = knoten1.adjazenzListe.get(getIndexInAdjListe(knoten1,knoten2)).getGewicht();
+
+			//}
+		//}
 		}
 		return gewicht;
 	}
 
 	@Override
 	public int getAnzahlKnoten() {
-		// TODO Auto-generated method stub
-		return 0;
+		return graphList.size();
 	}
 
 	@Override
@@ -142,18 +143,42 @@ public class Adjazenzliste implements Graph {
 		return 0;
 	}
 
-	
+	public int getIndexInAdjListe(Knoten knoten1, Knoten knoten2) {
+		int index = -1;
+		
+		if ((knoten1.adjazenzListe.size()) < (knoten2.adjazenzListe.size())) {
+			
+			for (int i = 0; i < knoten1.adjazenzListe.size(); i++) {
+				if (knoten1.adjazenzListe.get(i).getZiel() == knoten2) {
+					index = i;
+					continue;
+					
+				}
+				
+			}
+		} else {
+			for (int i = 0; i < knoten2.adjazenzListe.size(); i++) {
+				if (knoten2.adjazenzListe.get(i).getZiel() == knoten1) {
+					index =i;
+					continue;
+					
+				}
+			}
+			
+		}
+		return index;
+	}
+
 	public static void main(String[] args) {
 
 		Graph graph = new Adjazenzliste();
-		
+
 		Knoten a = new Knoten("A");
 		Knoten b = new Knoten("B");
 		Knoten c = new Knoten("C");
 		Knoten d = new Knoten("D");
 		Knoten e = new Knoten("E");
 
-		
 		graph.knotenHinzufuegen(a);
 		graph.knotenHinzufuegen(b);
 		graph.knotenHinzufuegen(c);
@@ -164,11 +189,9 @@ public class Adjazenzliste implements Graph {
 		graph.kanteHinzufügen(a, d, 4);
 		System.out.println(graph);
 		graph.kanteEntfernen(a, b);
-		System.out.println(graph.getGewicht(a, b));
-	//graph.knotenEntfernen(a);
-	
+		System.out.println("Gewicht zwischen " + a.getName() + " und " + b.getName() + " = " + graph.getGewicht(a, b));
+		// graph.knotenEntfernen(a);
 
-		
 		System.out.println(graph);
 
 		// knotenA.addCost(knotenA, 0);
@@ -177,7 +200,23 @@ public class Adjazenzliste implements Graph {
 		//
 	}
 
-	
-
+	@Override
+	public ArrayList<Knoten> getAllKnoten() {
+		
+		return graphList;
 	}
 
+	@Override
+	public ArrayList<Kante> getNachbarn(Knoten knoten) {
+		ArrayList<Knoten> nachbarn = new ArrayList<Knoten>();
+		
+		for(int i=0;i<graphList.size();i++){
+			if(graphList.get(i) == knoten){
+				return graphList.get(i).adjazenzListe;
+			}
+		}
+		
+		return null;
+	}
+
+}
