@@ -10,7 +10,7 @@ public interface Graph {
 public void knotenEntfernen(Knoten knoten);
 
 
-public void kanteHinzufügen(Knoten knoten1,Knoten knoten2,int gewicht);
+public void kanteEinfuegen(Knoten knoten1,Knoten knoten2,int gewicht);
 
 
 
@@ -23,11 +23,7 @@ public int getAnzahlKnoten();
 public int getAnzahlKanten();
 
 
-
-public void initKnoten(ArrayList<Knoten> graphList);
-
 public int getGewicht(Knoten knoten1,Knoten knoten2);
-
 
 
 void knotenHinzufuegen(Knoten knoten); //Done

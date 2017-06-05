@@ -1,16 +1,42 @@
 
-public class DijkstraKnoten extends Knoten {
+public class DijkstraKnoten extends Knoten implements Comparable<DijkstraKnoten>{
 
-	private Knoten pred =null;
-	private int gewicht= Integer.MAX_VALUE;
-	private boolean marked=false;
+
+	private DijkstraKnoten pred =null;
+	private double minWeg= Double.POSITIVE_INFINITY;
+	private boolean markiert=false;
 	
-	public DijkstraKnoten(String name,Knoten pred,int gewicht,boolean marked) {
+	public DijkstraKnoten(String name) {
 		super(name);
-		this.pred = pred;;
-		this.gewicht= gewicht;
-		this.marked= marked;
+	}
+
+	@Override
+	public int compareTo(DijkstraKnoten o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public double getMinWeg() {
+		return minWeg;
+	}
+
+	public void setMinWeg(double distanceThroughU) {
+		this.minWeg = distanceThroughU;
+	}
+
+	public DijkstraKnoten getPred() {
+		return pred;
+	}
+
+	
+
+	public void setPred(DijkstraKnoten u) {
+		this.pred = u;
 		
 	}
+
+	
+
+	
 
 }

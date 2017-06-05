@@ -1,51 +1,73 @@
 import java.util.ArrayList;
+import java.util.Collections;
+
+import java.util.List;
+import java.util.PriorityQueue;
+
 
 public class Dijkstra {
 
-	ArrayList<DijkstraKnoten> DList;
-	Graph graph;
+	
+	private Graph graph = null;
+public Dijkstra(Graph graph){
+	this.graph = graph;
+}
+	
+	 public void computePaths(DijkstraKnoten source)
+	    {
+	        source.setMinWeg(0);
+	        PriorityQueue<DijkstraKnoten> vertexQueue = new PriorityQueue<DijkstraKnoten>();
+	    vertexQueue.add(source);
 
-	public Dijkstra() {
-		DList = new ArrayList<DijkstraKnoten>();
-	}
+	    while (!vertexQueue.isEmpty()) {
+	    	DijkstraKnoten u = vertexQueue.poll();
 
-	public ArrayList<DijkstraKnoten> berechneKürzestenWeg(Knoten knoten) {
-		ArrayList<Knoten> graphenListe = graph.getAllKnoten();
-		String name = "";
-		ArrayList<Kante> kanten;
-		Knoten aktuellerKnoten = null;
-		Knoten pred = null;
-		int gewicht = 0;
+	            // Visit each edge exiting u
+	            for (Kante e : graph.getNachbarn(u))
+	            {
+	                DijkstraKnoten v =  (DijkstraKnoten) e.getZiel();
+	                int gewicht = e.getGewicht();
+	               
+	                double distanceThroughU = u.getMinWeg() + gewicht;
+	        if (distanceThroughU < v.getMinWeg()) {
+	            vertexQueue.remove(v);
+	            
+	            v.setMinWeg(distanceThroughU) ;
+	            v.setPred(u);
+	            vertexQueue.add(v);
+	        }
+	            } 
+	        }
+	   
+	    }
+	 public void printPath(List<DijkstraKnoten> path,DijkstraKnoten a){
+		
+		 List<Knoten> alleKnoten = graph.getAllKnoten();
+		 List<DijkstraKnoten> alleKnoten2 = new ArrayList<DijkstraKnoten>();
+		 for(Knoten k : alleKnoten){
+			 alleKnoten2.add((DijkstraKnoten)k);
+		 }
+		 
+		 String pathReturn="";
+		 for(int i=0;i<alleKnoten2.size();i++){
+			if(i==0){
+				pathReturn+=alleKnoten2.get(i).getName()+"("+alleKnoten2.get(i).getName()+","+alleKnoten2.get(i).getMinWeg()+") ";
+			}else{
+				pathReturn+=alleKnoten2.get(i).getName()+"("+alleKnoten2.get(i).getPred().getName()+","+alleKnoten2.get(i).getMinWeg()+") ";
+		 }}
+		 System.out.println(pathReturn);
+	 }
+	
+	 
 
-		for (int i = 0; i < graphenListe.size(); i++) {
+	    public List<DijkstraKnoten> getShortestPathTo(DijkstraKnoten target)
+	    {
+	        List<DijkstraKnoten> path = new ArrayList<DijkstraKnoten>();
+	        for (DijkstraKnoten vertex = target; vertex != null; vertex =  vertex.getPred())
+	            path.add(vertex);
 
-			aktuellerKnoten = graphenListe.get(i);
-			kanten = graph.getNachbarn(aktuellerKnoten);
-			if (aktuellerKnoten == knoten) {
-				name = kanten.get(i).getZiel().getName();
-				pred = knoten;
-				gewicht = 0;
-				DList.add(0, (new DijkstraKnoten(name, pred, gewicht, true)));
-
-			}
-			kanten = graph.getNachbarn(aktuellerKnoten);
-
-			for (int j = 0; j < kanten.size(); j++) {
-				if (aktuellerKnoten != knoten) {
-					name = kanten.get(i).getZiel().getName();
-					pred = aktuellerKnoten;
-					gewicht = kanten.get(i).getGewicht();
-					DList.add(new DijkstraKnoten(name, pred, gewicht, false));
-				}
-			}
-		}
-		return DList;
-	}
-
-	public ArrayList<DijkstraKnoten> errechneKürzesteWege(ArrayList<DijkstraKnoten> DList, DijkstraKnoten DKnotenj) {
-
-		return DList;
-
-	}
-
+	        Collections.reverse(path);
+	        return path;
+	    }
+	    
 }
