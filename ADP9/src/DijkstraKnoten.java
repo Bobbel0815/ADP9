@@ -4,7 +4,7 @@ public class DijkstraKnoten extends Knoten implements Comparable<DijkstraKnoten>
 
 	private DijkstraKnoten pred =null;
 	private double minWeg= Double.POSITIVE_INFINITY;
-	private boolean markiert=false;
+	
 	
 	public DijkstraKnoten(String name) {
 		super(name);

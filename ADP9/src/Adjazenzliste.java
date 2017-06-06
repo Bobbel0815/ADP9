@@ -6,6 +6,17 @@ import java.util.List;
 import org.omg.PortableServer.AdapterActivator;
 
 public class Adjazenzliste implements Graph {
+	private static int counterGetNachbarn=0;
+	private static int counterIstNachbar=0;
+	
+	public static int getCounter() {
+		return counterGetNachbarn;
+	}
+
+	public static void resetCounter() {
+		Adjazenzliste.counterGetNachbarn = 0;
+	}
+
 	public static ArrayList<Knoten> graphList;
 
 	public Adjazenzliste() {
@@ -130,7 +141,7 @@ public class Adjazenzliste implements Graph {
 			for (int i = 0; i < knoten1.adjazenzListe.size(); i++) {
 				if (knoten1.adjazenzListe.get(i).getZiel() == knoten2) {
 					index = i;
-					continue;
+					break;
 					
 				}
 				
@@ -139,7 +150,7 @@ public class Adjazenzliste implements Graph {
 			for (int i = 0; i < knoten2.adjazenzListe.size(); i++) {
 				if (knoten2.adjazenzListe.get(i).getZiel() == knoten1) {
 					index =i;
-					continue;
+					break;
 					
 				}
 			}
@@ -223,7 +234,9 @@ public class Adjazenzliste implements Graph {
 		//System.out.println(graph);
      System.out.println(graph.istNachbar(A, E));
 	
-//		dijkstra.computePaths(A); // run Dijkstra
+		dijkstra.computePaths(A); // run Dijkstra
+		System.out.println(counterGetNachbarn);
+	System.out.println(counterIstNachbar);
 //    
 //    
 //       
@@ -247,7 +260,10 @@ public class Adjazenzliste implements Graph {
 		ArrayList<Knoten> nachbarn = new ArrayList<Knoten>();
 		
 		for(int i=0;i<graphList.size();i++){
+			
+			counterGetNachbarn++;
 			if(graphList.get(i) == knoten){
+				
 				return graphList.get(i).adjazenzListe;
 			}
 		}
@@ -274,6 +290,7 @@ public class Adjazenzliste implements Graph {
 	@Override
 	public boolean istNachbar(Knoten knoten,Knoten knoten2){
 		for(int i=0;i<knoten.adjazenzListe.size();i++){
+			counterIstNachbar++;
 			if((knoten.adjazenzListe.get(i).getZiel()== knoten2)){
 				return true;
 			}
@@ -284,6 +301,14 @@ public class Adjazenzliste implements Graph {
 		
 		
 		
+	}
+
+	public static int getCounterIstNachbar() {
+		return counterIstNachbar;
+	}
+
+	public static void setCounterIstNachbar(int counterIstNachbar) {
+		Adjazenzliste.counterIstNachbar = counterIstNachbar;
 	}
 	
 	

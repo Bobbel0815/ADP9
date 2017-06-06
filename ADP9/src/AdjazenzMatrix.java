@@ -4,6 +4,17 @@ import java.util.List;
 
 public class AdjazenzMatrix implements Graph {
 
+	private static int counterGetNachbarn=0;
+	private static int counterIstNachbar=0;
+
+	public static int getCounter() {
+		return counterGetNachbarn;
+	}
+
+	public static void resetCounter() {
+		AdjazenzMatrix.counterGetNachbarn = 0;
+	}
+
 	private final int DEFAULT_CAPACITY = 10;
 	private int numVertices; // number of vertices in the graph
 	private int numEdges;
@@ -17,7 +28,7 @@ public class AdjazenzMatrix implements Graph {
 		numVertices = 0;
 		numEdges = 0;
 		this.adjMatrix = new int[DEFAULT_CAPACITY][DEFAULT_CAPACITY];
-		this.vertices =  new Knoten[DEFAULT_CAPACITY];
+		this.vertices = new Knoten[DEFAULT_CAPACITY];
 	}
 
 	@Override
@@ -35,15 +46,15 @@ public class AdjazenzMatrix implements Graph {
 
 	@Override
 	public void knotenEntfernen(Knoten knoten) {
-	
+
 		int index = getIndex(knoten);
-		
+
 		if (indexIsValid(index)) {
 			numVertices--;
-			
+
 			for (int i = index; i < numVertices; i++)
 				vertices[i] = vertices[i + 1];
-			
+
 			for (int i = index; i < numVertices; i++)
 				for (int j = 0; j <= numVertices; j++)
 					adjMatrix[i][j] = adjMatrix[i + 1][j];
@@ -53,21 +64,18 @@ public class AdjazenzMatrix implements Graph {
 					adjMatrix[j][i] = adjMatrix[j][i + 1];
 		}
 	}
-	
-	
 
 	/******************************************************************
 	 * Removes a vertex at the given index from the graph. Note that this may
 	 * affect the index values of other vertices.
 	 ******************************************************************/
-	
 
 	/******************************************************************
 	 * Creates new arrays to store the contents of the graph with twice the
 	 * capacity.
 	 ******************************************************************/
 	protected void expandCapacity() {
-		Knoten[] largerVertices = (Knoten[]) (new Object[vertices.length * 2]);
+		Knoten[] largerVertices = new Knoten[vertices.length * 2];
 		int[][] largerAdjMatrix = new int[vertices.length * 2][vertices.length * 2];
 
 		for (int i = 0; i < numVertices; i++) {
@@ -148,7 +156,6 @@ public class AdjazenzMatrix implements Graph {
 	@Override
 	public ArrayList<Knoten> getAllKnoten() {
 		ArrayList<Knoten> alleKnoten = new ArrayList<Knoten>();
-		
 
 		for (int i = 0; i < numVertices; i++) {
 			alleKnoten.add(this.vertices[i]);
@@ -156,33 +163,35 @@ public class AdjazenzMatrix implements Graph {
 
 		return alleKnoten;
 	}
+
 	@Override
 	public boolean istNachbar(Knoten knoten, Knoten knoten2) {
 		int i = getIndex(knoten);
-		for (int j = 0; j < numVertices; j++)
+		for (int j = 0; j < numVertices; j++) {
+			counterIstNachbar++;
 			if (knoten2.equals(vertices[j])) {
-				if(adjMatrix[i][j] != 0){
+				if (adjMatrix[i][j] != 0) {
 					return true;
 				}
 			}
+		}
 		return false;
 	}
-	
+
 	@Override
 	public ArrayList<Kante> getNachbarn(Knoten knoten) {
-		  int i = getIndex(knoten);
-		  assert(0 <= i && i < numVertices);
-	        ArrayList<Kante> nbrs = new ArrayList<Kante>();
+		int i = getIndex(knoten);
+		assert (0 <= i && i < numVertices);
+		ArrayList<Kante> nbrs = new ArrayList<Kante>();
 
-	        for (int j = 0; j < numVertices; j++)
-	        {
-	            if (adjMatrix[i][j] != 0)
-	            {
-	            	nbrs.add(new Kante(vertices[j],adjMatrix[i][j]));
-	            }
-	        }
+		for (int j = 0; j < numVertices; j++) {
+			counterGetNachbarn++;
+			if (adjMatrix[i][j] != 0) {
+				nbrs.add(new Kante(vertices[j], adjMatrix[i][j]));
+			}
+		}
 
-	      return nbrs;
+		return nbrs;
 	}
 
 	/******************************************************************
@@ -204,47 +213,46 @@ public class AdjazenzMatrix implements Graph {
 		return ((index < numVertices) && (index >= 0));
 	}
 
-	
-
-
 	@Override
 	public int anzahlKnoten() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 	public static void main(String[] args) {
 
 		Graph graph = new AdjazenzMatrix();
 
-//		Knoten A = new Knoten("A");
-//		Knoten B = new Knoten("B");
-//		Knoten C = new Knoten("C");
-//		Knoten D = new Knoten("D");
-//
-//		graph.knotenHinzufuegen(A);
-//		graph.knotenHinzufuegen(B);
-//		graph.knotenHinzufuegen(C);
-//		graph.knotenHinzufuegen(D);
-		
-//		graph.kanteEinfuegen(A, B, 2);
-//		graph.kanteEinfuegen(B, C, 2);
-//		graph.kanteEinfuegen(A, D, 4);
-//		System.out.println(graph);
-//		//graph.kanteEntfernen(A, B);
-//		System.out.println("Gewicht zwischen " + A.getName() + " und " + B.getName() + " = " + graph.getGewicht(A, B));
-//		graph.knotenEntfernen(A);
-		
+		// Knoten A = new Knoten("A");
+		// Knoten B = new Knoten("B");
+		// Knoten C = new Knoten("C");
+		// Knoten D = new Knoten("D");
+		//
+		// graph.knotenHinzufuegen(A);
+		// graph.knotenHinzufuegen(B);
+		// graph.knotenHinzufuegen(C);
+		// graph.knotenHinzufuegen(D);
+
+		// graph.kanteEinfuegen(A, B, 2);
+		// graph.kanteEinfuegen(B, C, 2);
+		// graph.kanteEinfuegen(A, D, 4);
+		// System.out.println(graph);
+		// //graph.kanteEntfernen(A, B);
+		// System.out.println("Gewicht zwischen " + A.getName() + " und " +
+		// B.getName() + " = " + graph.getGewicht(A, B));
+		// graph.knotenEntfernen(A);
+
 		Dijkstra dijkstra = new Dijkstra(graph);
 		DijkstraKnoten A = new DijkstraKnoten("A");
-    	DijkstraKnoten B = new DijkstraKnoten("B");
-    	DijkstraKnoten C = new DijkstraKnoten("C");
-    	DijkstraKnoten D = new DijkstraKnoten("D");
-    	DijkstraKnoten E = new DijkstraKnoten("E");
-    	DijkstraKnoten F = new DijkstraKnoten("F");
-    	DijkstraKnoten G = new DijkstraKnoten("G");
-    	DijkstraKnoten H = new DijkstraKnoten("H");
-    	
-    	graph.knotenHinzufuegen(A);
+		DijkstraKnoten B = new DijkstraKnoten("B");
+		DijkstraKnoten C = new DijkstraKnoten("C");
+		DijkstraKnoten D = new DijkstraKnoten("D");
+		DijkstraKnoten E = new DijkstraKnoten("E");
+		DijkstraKnoten F = new DijkstraKnoten("F");
+		DijkstraKnoten G = new DijkstraKnoten("G");
+		DijkstraKnoten H = new DijkstraKnoten("H");
+
+		graph.knotenHinzufuegen(A);
 		graph.knotenHinzufuegen(B);
 		graph.knotenHinzufuegen(C);
 		graph.knotenHinzufuegen(D);
@@ -252,7 +260,7 @@ public class AdjazenzMatrix implements Graph {
 		graph.knotenHinzufuegen(F);
 		graph.knotenHinzufuegen(G);
 		graph.knotenHinzufuegen(H);
-		
+
 		graph.kanteEinfuegen(A, B, 8);
 		graph.kanteEinfuegen(A, C, 2);
 		graph.kanteEinfuegen(A, D, 5);
@@ -271,24 +279,38 @@ public class AdjazenzMatrix implements Graph {
 
 		graph.kanteEinfuegen(G, F, 2);
 		graph.kanteEinfuegen(G, H, 6);
-		
+
 		graph.kanteEinfuegen(F, H, 3);
 		System.out.println(graph.istNachbar(A, H));
-//		 dijkstra.computePaths(A); // run Dijkstra
-//		    
-//		    
-//	       
-//	        System.out.println("Distance to " + H + ": " + H.getMinWeg());
-//	        List<DijkstraKnoten> path = dijkstra.getShortestPathTo(F);
-//	        
-//	        dijkstra.printPath(path,H);
-	
-	
-	
+		
+		
+		 dijkstra.computePaths(A); // run Dijkstra
+		 System.out.println("cnt getNbr= "+counterGetNachbarn);
+		 System.out.println("cnt istNbr= "+counterIstNachbar);
+		//
+		//
+		//
+		// System.out.println("Distance to " + H + ": " + H.getMinWeg());
+		// List<DijkstraKnoten> path = dijkstra.getShortestPathTo(F);
+		//
+		// dijkstra.printPath(path,H);
+
 	}
-	
-	
-	
-	
-	
+
+	public static int getCounterGetNachbarn() {
+		return counterGetNachbarn;
+	}
+
+	public static void setCounterGetNachbarn(int counterGetNachbarn) {
+		AdjazenzMatrix.counterGetNachbarn = counterGetNachbarn;
+	}
+
+	public static int getCounterIstNachbar() {
+		return counterIstNachbar;
+	}
+
+	public static void setCounterIstNachbar(int counterIstNachbar) {
+		AdjazenzMatrix.counterIstNachbar = counterIstNachbar;
+	}
+
 }
