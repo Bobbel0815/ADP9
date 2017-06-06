@@ -156,7 +156,17 @@ public class AdjazenzMatrix implements Graph {
 
 		return alleKnoten;
 	}
-
+	@Override
+	public boolean istNachbar(Knoten knoten, Knoten knoten2) {
+		int i = getIndex(knoten);
+		for (int j = 0; j < numVertices; j++)
+			if (knoten2.equals(vertices[j])) {
+				if(adjMatrix[i][j] != 0){
+					return true;
+				}
+			}
+		return false;
+	}
 	
 	@Override
 	public ArrayList<Kante> getNachbarn(Knoten knoten) {
@@ -263,15 +273,15 @@ public class AdjazenzMatrix implements Graph {
 		graph.kanteEinfuegen(G, H, 6);
 		
 		graph.kanteEinfuegen(F, H, 3);
-		
-		 dijkstra.computePaths(A); // run Dijkstra
-		    
-		    
-	       
-	        System.out.println("Distance to " + H + ": " + H.getMinWeg());
-	        List<DijkstraKnoten> path = dijkstra.getShortestPathTo(F);
-	        
-	        dijkstra.printPath(path,H);
+		System.out.println(graph.istNachbar(A, H));
+//		 dijkstra.computePaths(A); // run Dijkstra
+//		    
+//		    
+//	       
+//	        System.out.println("Distance to " + H + ": " + H.getMinWeg());
+//	        List<DijkstraKnoten> path = dijkstra.getShortestPathTo(F);
+//	        
+//	        dijkstra.printPath(path,H);
 	
 	
 	

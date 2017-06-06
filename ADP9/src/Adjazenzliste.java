@@ -80,23 +80,7 @@ public class Adjazenzliste implements Graph {
 		graphList.clear();
 
 	}
-	// @Override
-	// public void initKnoten(ArrayList<Knoten> list) { //Djiakstra!
-	// Knoten knoten;
-	// for (int i = 0; i < list.size(); i++) {
-	// knoten = list.get(i);
-	// if (i == 0) {
-	// knoten.setPred(knoten);
-	// knoten.setCost(0);
-	// knoten.setMarked(true);
-	// }
-	// else{
-	// knoten.setPred(null);
-	// knoten.setCost(Integer.MAX_VALUE);
-	// knoten.setMarked(false);
-	// }
-	// }
-	// }
+	
 
 	@Override
 	public void kanteEinfuegen(Knoten knoten1, Knoten knoten2, int gewicht) {
@@ -237,16 +221,16 @@ public class Adjazenzliste implements Graph {
 		graph.kanteEinfuegen(F, H, 3);
 		
 		//System.out.println(graph);
-     
+     System.out.println(graph.istNachbar(A, E));
 	
-		dijkstra.computePaths(A); // run Dijkstra
-    
-    
-       
-        System.out.println("Distance to " + H + ": " + H.getMinWeg());
-        List<DijkstraKnoten> path = dijkstra.getShortestPathTo(H);
-        
-        dijkstra.printPath(path,H);
+//		dijkstra.computePaths(A); // run Dijkstra
+//    
+//    
+//       
+//        System.out.println("Distance to " + H + ": " + H.getMinWeg());
+//        List<DijkstraKnoten> path = dijkstra.getShortestPathTo(H);
+//        
+//        dijkstra.printPath(path,H);
 //        for(int i=0;i<path.size();i++){
 //        System.out.print(path.get(i).getName()+" "+path.get(i).getMinWeg());
 //        }
@@ -287,7 +271,20 @@ public class Adjazenzliste implements Graph {
 //	        }
 //	        return result;
 //	    }
-	
+	@Override
+	public boolean istNachbar(Knoten knoten,Knoten knoten2){
+		for(int i=0;i<knoten.adjazenzListe.size();i++){
+			if((knoten.adjazenzListe.get(i).getZiel()== knoten2)){
+				return true;
+			}
+		}
+		
+		return false;
+		
+		
+		
+		
+	}
 	
 	
 }

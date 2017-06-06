@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import org.omg.CosNaming.IstringHelper;
+
 public interface Graph {
 
 	
@@ -39,7 +41,8 @@ public ArrayList<Knoten> getAllKnoten();
 
 
 public  ArrayList<Kante> getNachbarn(Knoten knoten);
-	
+
+public boolean istNachbar(Knoten a,Knoten b);
 
 
 
